@@ -4,23 +4,23 @@
     <meta charset="UTF-8" />
     <title>Cálculo de Área de Impressão</title>
     <link rel="stylesheet" href="./styles.css" />
+    <link rel="icon" type="image/png" href="./img/favicon-imprimil.png" />
   </head>
   <body>
     <div class="container">
       <h1>Área Quadrada de impressão de adesivos</h1>
       <label>Quantidade de veículos:</label>
       <input type="number" id="quantidadeVeiculos" />
-      <label>Adesivos por veículo:</label>
-      <input type="number" id="adesivosPorVeiculo" />
-      <label>Largura do adesivo (cm):</label>
-      <input type="number" id="larguraAdesivo" />
-      <label>altura do adesivo (cm):</label>
-      <input type="number" id="alturaAdesivo" />
       <label>Largura do material (cm):</label>
-      <input type="number" id="larguraImpressora" value="130" />
-      <button onclick="calcular()">Calcular Área</button>
+      <input type="number" id="larguraMaterial" value="130" />
+      <div id="adesivosContainer"></div>
+      <button onclick="adicionarAdesivo()">Adicionar Adesivo</button>
+      <button onclick="desfazerAdicao()" id="btnDesfazer" disabled>
+        Desfazer Adição
+      </button>
+      <button onclick="calcular()">Calcular Área Total</button>
       <div id="resultado"></div>
     </div>
-    <script src="calculo.js"></script>
+    <script src="calculo2.js"></script>
   </body>
 </html>

@@ -1,0 +1,27 @@
+<div class="result-box">
+  <h2>📊 Resumo do Cálculo</h2>
+
+  <div class="section">
+    <h3>Dados Gerais do Projeto</h3>
+    <p><strong>Total de Veículos:</strong> ${quantVeiculos}</p>
+    <p>
+      <strong>Largura do Material:</strong> ${larguraMaterial.toFixed( 2 )} cm
+    </p>
+  </div>
+  <div class="final-result">
+    <h3>Resultado Final da Impressão</h3>
+    <p>Área Total de Impressão:</p>
+    <div class="value-box area-value"><strong>${areaTotal}</strong> m²</div>
+  </div>
+  <p class="nota">
+    <em
+      >Nota: Os cálculos consideram uma margem de segurança de 1cm em altura e
+      largura para cortes.</em
+    >
+  </p>
+  <div class="section">
+    <h3>Otimização por Tipo de Adesivo</h3>
+    <p class="adesivo-list">${resumoHTML}</p>
+    <p></p>
+  </div>
+</div>
