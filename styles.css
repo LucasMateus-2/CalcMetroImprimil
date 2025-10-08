@@ -1,3 +1,37 @@
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  #resultado {
+    font-size: 24px;
+  }
+}
+
+/* Celulares */
+@media (max-width: 480px) {
+  .container {
+    padding: 15px;
+  }
+
+  input, button {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .value-box {
+    font-size: 1.5rem;
+    width: 100%;
+  }
+}
+
+
+
+
 body {
   font-family: "Segoe UI", sans-serif;
   background: #123add;
@@ -9,6 +43,12 @@ body {
   min-height: 100vh;
 }
 
+
+input, button {
+  font-size: 1rem; /* relativo ao tamanho base da fonte */
+}
+
+
 .container {
   background: white;
   padding: 30px;
@@ -17,6 +57,8 @@ body {
   width: 100%;
   max-width: 1000px;
   text-align: center;
+  width: 90%;   /* ocupa 90% da tela */
+  max-width: 1000px;
 }
 
 h1 {
