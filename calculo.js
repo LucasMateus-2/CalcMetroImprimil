@@ -5,17 +5,17 @@ let adesivos = {};
 // 1. FUNÇÃO DE ADICIONAR ADESIVO
 // ----------------------------------------------------
 function adicionarAdesivo() {
-  const container = document.getElementById("adesivosContainer");
-  const index = document.querySelectorAll(".adesivo").length;
+	const container = document.getElementById('adesivosContainer');
+	const index = document.querySelectorAll('.adesivo').length;
 
-  const div = document.createElement("div");
-  div.className = "adesivo";
-  div.dataset.index = index;
+	const div = document.createElement('div');
+	div.className = 'adesivo';
+	div.dataset.index = index;
 
-  div.innerHTML = `
+	div.innerHTML = `
     <h3>Adesivo ${index + 1}</h3>
     <button type="button" onclick="removerAdesivo(this)" class="btn-remover">Remover Adesivo</button>
-    <label>Local (Nome):</label>
+    <label>Nome do adesivo:</label>
     <input type="text" class="nome-adesivo" name="nome" value="" required />
     <label>Adesivos por veículo:</label>
     <input type="number" class="por-veiculo" name="porVeiculo" value="1" min="1" required />
@@ -26,187 +26,198 @@ function adicionarAdesivo() {
     <hr>
   `;
 
-  container.appendChild(div);
+	container.appendChild(div);
 
-  // HABILITA O BOTÃO DESFAZER
-  const btnDesfazer = document.getElementById("btnDesfazer");
-  if (btnDesfazer) {
-    btnDesfazer.disabled = false;
-  }
+	// HABILITA O BOTÃO DESFAZER
+	const btnDesfazer = document.getElementById('btnDesfazer');
+	if (btnDesfazer) {
+		btnDesfazer.disabled = false;
+	}
 }
 
 function desfazerAdicao() {
-  const container = document.getElementById("adesivosContainer");
-  const adesivosAtuais = container.querySelectorAll(".adesivo");
+	const container = document.getElementById('adesivosContainer');
+	const adesivosAtuais = container.querySelectorAll('.adesivo');
 
-  // 1. Verifica se há adesivos para remover
-  if (adesivosAtuais.length > 0) {
-    // Seleciona o ÚLTIMO adesivo na lista (o mais recente)
-    const ultimoAdesivo = adesivosAtuais[adesivosAtuais.length - 1];
+	// 1. Verifica se há adesivos para remover
+	if (adesivosAtuais.length > 0) {
+		// Seleciona o ÚLTIMO adesivo na lista (o mais recente)
+		const ultimoAdesivo = adesivosAtuais[adesivosAtuais.length - 1];
 
-    // Remove o último adesivo do DOM
-    ultimoAdesivo.remove();
+		// Remove o último adesivo do DOM
+		ultimoAdesivo.remove();
 
-    // 2. Atualiza o estado do botão Desfazer
-    // Desabilita se não houver mais adesivos
-    if (adesivosAtuais.length - 1 === 0) {
-      document.getElementById("btnDesfazer").disabled = true;
-    }
+		// 2. Atualiza o estado do botão Desfazer
+		// Desabilita se não houver mais adesivos
+		if (adesivosAtuais.length - 1 === 0) {
+			document.getElementById('btnDesfazer').disabled = true;
+		}
 
-    // 3. Opcional: Recalcula a área se for relevante
-    if (adesivosAtuais.length - 1 > 0) {
-      calcular();
-    } else {
-      document.getElementById("resultado").innerHTML = ""; // Limpa o resultado
-    }
-  } else {
-    // Se já não houver adesivos, desabilita o botão por segurança
-    document.getElementById("btnDesfazer").disabled = true;
-  }
+		// 3. Opcional: Recalcula a área se for relevante
+		if (adesivosAtuais.length - 1 > 0) {
+			calcular();
+		} else {
+			document.getElementById('resultado').innerHTML = ''; // Limpa o resultado
+		}
+	} else {
+		// Se já não houver adesivos, desabilita o botão por segurança
+		document.getElementById('btnDesfazer').disabled = true;
+	}
 }
 
 // A função removerAdesivo(this) ainda é útil para remoção individual
 function removerAdesivo(buttonElement) {
-  const adesivoDiv = buttonElement.closest(".adesivo");
+	const adesivoDiv = buttonElement.closest('.adesivo');
 
-  if (adesivoDiv) {
-    adesivoDiv.remove();
+	if (adesivoDiv) {
+		adesivoDiv.remove();
 
-    // Atualiza o estado do botão Desfazer (se o último foi removido manualmente)
-    const adesivosRestantes = document
-      .getElementById("adesivosContainer")
-      .querySelectorAll(".adesivo").length;
-    if (adesivosRestantes === 0) {
-      document.getElementById("btnDesfazer").disabled = true;
-      document.getElementById("resultado").innerHTML = "";
-    } else {
-      // Recalcula o resultado, pois o layout mudou
-      calcular();
-    }
-  }
+		// Atualiza o estado do botão Desfazer (se o último foi removido manualmente)
+		const adesivosRestantes = document
+			.getElementById('adesivosContainer')
+			.querySelectorAll('.adesivo').length;
+		if (adesivosRestantes === 0) {
+			document.getElementById('btnDesfazer').disabled = true;
+			document.getElementById('resultado').innerHTML = '';
+		} else {
+			// Recalcula o resultado, pois o layout mudou
+			calcular();
+		}
+	}
 }
-const salvaObj = () => {
-  const adesivoDivs = document.querySelectorAll(".adesivo");
-  const resultadoObj = {};
 
-  adesivoDivs.forEach((div) => {
-    // Acessa apenas os campos que ainda estão no adesivo
-    const nomeInput = div.querySelector('input[name="nome"]');
-    const larguraInput = div.querySelector('input[name="largura"]');
-    const alturaInput = div.querySelector('input[name="altura"]');
-    const porVeiculoInput = div.querySelector('input[name="porVeiculo"]');
+const salvaObjAdesivo = () => {
+	const adesivoDivs = document.querySelectorAll('.adesivo');
+	const resultadoObj = {};
 
-    if (!nomeInput || !larguraInput || !alturaInput || !porVeiculoInput) {
-      console.error("Erro: um ou mais campos não foram encontrados.");
-      return;
-    }
+	adesivoDivs.forEach((div) => {
+		// Acessa os campos do adesivo
+		const nomeInput = div.querySelector('input[name="nome"]');
+		const larguraInput = div.querySelector('input[name="largura"]');
+		const alturaInput = div.querySelector('input[name="altura"]');
+		const porVeiculoInput = div.querySelector('input[name="porVeiculo"]');
 
-    const nome = nomeInput.value.trim();
-    const largura = parseFloat(larguraInput.value);
-    const altura = parseFloat(alturaInput.value);
-    const porVeiculo = parseInt(porVeiculoInput.value);
+		if (!nomeInput || !larguraInput || !alturaInput || !porVeiculoInput) {
+			console.error('Erro: um ou mais campos não foram encontrados.');
+			return;
+		}
 
-    // Validação de dados
-    if (
-      !nome ||
-      isNaN(largura) ||
-      largura <= 0 ||
-      isNaN(altura) ||
-      altura <= 0 ||
-      isNaN(porVeiculo) ||
-      porVeiculo <= 0
-    ) {
-      console.warn(
-        "Adesivo ignorado devido a dados incompletos ou inválidos:",
-        nome
-      );
-      return;
-    }
+		const nome = nomeInput.value.trim();
+		const largura = parseFloat(larguraInput.value);
+		const altura = parseFloat(alturaInput.value);
+		const porVeiculo = parseInt(porVeiculoInput.value);
 
-    // Salva apenas os dados do adesivo. O 'veiculos' será injetado no 'calcular'.
-    resultadoObj[nome] = { nome, largura, altura, porVeiculo };
-  });
+		// Validação
+		if (
+			!nome ||
+			isNaN(largura) ||
+			largura <= 0 ||
+			isNaN(altura) ||
+			altura <= 0 ||
+			isNaN(porVeiculo) ||
+			porVeiculo <= 0
+		) {
+			console.warn('Adesivo ignorado devido a dados inválidos:', nome);
+			return;
+		}
 
-  return resultadoObj;
+		// Se a largura for maior que 130, divide em partes
+		if (largura > 130) {
+			const partes = Math.ceil(largura / 130);
+			const larguraDividida = largura / partes;
+
+			for (let i = 1; i <= partes; i++) {
+				const nomeParte = `${nome} ${i}`;
+				resultadoObj[nomeParte] = {
+					nome: nomeParte,
+					largura: larguraDividida.toFixed(2),
+					altura,
+					porVeiculo,
+				};
+			}
+		} else {
+			// Caso não precise dividir
+			resultadoObj[nome] = { nome, largura, altura, porVeiculo };
+		}
+	});
+
+	return resultadoObj;
 };
+
 function calcular() {
-  // 1. Obter CAMPOS GLOBAIS
-  const quantVeiculos = parseInt(
-    document.getElementById("quantidadeVeiculos").value
-  );
-  const larguraMaterial = parseFloat(
-    document.getElementById("larguraMaterial").value
-  );
+	// 1. Obter CAMPOS GLOBAIS
+	const quantVeiculos = parseInt(
+		document.getElementById('quantidadeVeiculos').value
+	);
+	const larguraMaterial = 130;
 
-  if (
-    isNaN(quantVeiculos) ||
-    quantVeiculos <= 0 ||
-    isNaN(larguraMaterial) ||
-    larguraMaterial <= 0
-  ) {
-    alert(
-      "Por favor, insira a Quantidade de Veículos e a Largura do Material de Impressão corretamente."
-    );
-    return;
-  }
+	if (isNaN(quantVeiculos) || quantVeiculos <= 0) {
+		alert(
+			'Por favor, insira a Quantidade de Veículos e a Largura do Material de Impressão corretamente.'
+		);
+		return;
+	}
 
-  // 2. Obter os dados dos adesivos (salvaObj() não está inclusa aqui, mas assumimos que funciona)
-  // Certifique-se de que a variável global 'adesivos' está definida.
-  adesivos = salvaObj();
-  if (Object.keys(adesivos).length === 0) {
-    document.getElementById("resultado").innerHTML =
-      "<p class='warning'>Nenhum adesivo válido encontrado para cálculo.</p>";
-    return;
-  }
+	// 2. Obter os dados dos adesivos (salvaObj() não está inclusa aqui, mas assumimos que funciona)
+	// Certifique-se de que a variável global 'adesivos' está definida.
+	adesivos = salvaObjAdesivo();
+	console.log(adesivos);
 
-  let alturaTotalImpressao = 0;
-  let resumoHTML = "";
+	if (Object.keys(adesivos).length === 0) {
+		window.alert('Nenhum adesivo válido encontrado para calculo');
+		document.getElementById('resultado').innerHTML =
+			"<p class='warning'>Nenhum adesivo válido encontrado para cálculo.</p>";
+		return;
+	}
 
-  // 3. Iterar sobre cada tipo de adesivo para calcular sua altura otimizada
-  for (const nomeAdesivo in adesivos) {
-    const adesivo = adesivos[nomeAdesivo];
+	let alturaTotalImpressao = 0;
+	let resumoHTML = '';
 
-    const totalAdesivos = adesivo.porVeiculo * quantVeiculos;
-    const larguraComMargem = adesivo.largura + 1;
-    const alturaComMargem = adesivo.altura + 1;
-    const conjuntosPorLinha = Math.floor(larguraMaterial / larguraComMargem);
+	// 3. Iterar sobre cada tipo de adesivo para calcular sua altura otimizada
+	for (const nomeAdesivo in adesivos) {
+		const adesivo = adesivos[nomeAdesivo];
 
-    let resultadoAdesivo;
+		const totalAdesivos = adesivo.porVeiculo * quantVeiculos;
+		const larguraComMargem = adesivo.largura + 1;
+		const alturaComMargem = adesivo.altura + 1;
+		const conjuntosPorLinha = Math.floor(larguraMaterial / larguraComMargem);
 
-    if (conjuntosPorLinha === 0) {
-      resultadoAdesivo = `<li class='error'><strong>${adesivo.nome} (${adesivo.largura}x${adesivo.altura}cm):</strong> ERRO! Largura excede o material. Não calculado.</li>`;
-    } else {
-      const quantidadeLinhas = Math.ceil(totalAdesivos / conjuntosPorLinha);
-      const alturaOcupada = quantidadeLinhas * alturaComMargem;
-      alturaTotalImpressao += alturaOcupada;
+		let resultadoAdesivo;
 
-      resultadoAdesivo = `
+		if (conjuntosPorLinha === 0) {
+			resultadoAdesivo = `<li class='error'><strong>${adesivo.nome} (${adesivo.largura}x${adesivo.altura}cm):</strong> ERRO! Largura excede o material. Não calculado.</li>`;
+		} else {
+			const quantidadeLinhas = Math.ceil(totalAdesivos / conjuntosPorLinha);
+			const alturaOcupada = quantidadeLinhas * alturaComMargem;
+			alturaTotalImpressao += alturaOcupada;
+
+			resultadoAdesivo = `
           <li>
               <strong>${adesivo.nome}</strong> (${adesivo.largura}x${
-        adesivo.altura
-      } cm):
+				adesivo.altura
+			} cm):
               <ul>
                   <li>Total de Adesivos: <strong>${totalAdesivos}</strong></li>
                   <li>Linhas Necessárias: <strong>${quantidadeLinhas}</strong></li>
                   <li>Altura Ocupada (por tipo): <span class='height-detail'>${alturaOcupada.toFixed(
-                    2
-                  )} cm</span></li>
+										2
+									)} cm</span></li>
               </ul>
           </li>
       `;
-    }
-    // ACUMULAMOS O HTML DE CADA ADESIVO
-    resumoHTML += resultadoAdesivo;
-  }
+		}
+		// ACUMULAMOS O HTML DE CADA ADESIVO
+		resumoHTML += resultadoAdesivo;
+	}
 
-  // 4. Calcular a área total de impressão (m²)
-  const areaTotal = (
-    (alturaTotalImpressao / 100) *
-    (larguraMaterial / 100)
-  ).toFixed(2);
+	// 4. Calcular a área total de impressão (m²)
+	const areaTotal = (
+		(alturaTotalImpressao / 100) *
+		(larguraMaterial / 100)
+	).toFixed(2);
 
-  // 5. Exibir o resultado usando innerHTML (CORRIGIDO AQUI!)
-  document.getElementById("resultado").innerHTML = `
+	// 5. Exibir o resultado usando innerHTML (CORRIGIDO AQUI!)
+	document.getElementById('resultado').innerHTML = `
     <div class="result-box">
         <h2>📊 Resumo do Cálculo</h2>
 
@@ -215,14 +226,14 @@ function calcular() {
             <p><strong>Total de Veículos:</strong> ${quantVeiculos}</p>
             <p>
                 <strong>Largura do Material:</strong> ${larguraMaterial.toFixed(
-                  2
-                )} cm
+									2
+								)} cm
             </p>
             <p>
                 <strong>Altura Total Necessária:</strong> 
                 <span class='height-detail' style='font-size:1.1em;'>${alturaTotalImpressao.toFixed(
-                  2
-                )} cm</span>
+									2
+								)} cm</span>
             </p>
         </div>
         
@@ -247,15 +258,15 @@ function calcular() {
 // ----------------------------------------------------
 // 6. BLOCO DE INICIALIZAÇÃO (EXECUTA APENAS UMA VEZ NA CARGA DA PÁGINA)
 // ----------------------------------------------------
-document.addEventListener("DOMContentLoaded", function () {
-  // Esta chamada ocorre APENAS na carga da página, adicionando o primeiro adesivo.
-  adicionarAdesivo();
+document.addEventListener('DOMContentLoaded', function () {
+	// Esta chamada ocorre APENAS na carga da página, adicionando o primeiro adesivo.
+	adicionarAdesivo();
 
-  // Desabilita o botão 'Desfazer Adição' inicialmente, pois não há o que desfazer.
-  const btnDesfazer = document.getElementById("btnDesfazer");
-  if (btnDesfazer) {
-    btnDesfazer.disabled = true;
-  }
+	// Desabilita o botão 'Desfazer Adição' inicialmente, pois não há o que desfazer.
+	const btnDesfazer = document.getElementById('btnDesfazer');
+	if (btnDesfazer) {
+		btnDesfazer.disabled = true;
+	}
 });
 /*let areaTotal = 0;
   let resumo = "";
