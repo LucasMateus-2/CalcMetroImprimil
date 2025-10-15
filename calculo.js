@@ -123,7 +123,7 @@ const salvaObjAdesivo = () => {
 
 		// Se a largura for maior que 130, divide em partes
 		if (largura > 130) {
-			const partes = Math.ceil(largura / 130);
+			const partes = Math.ceil(largura / 125);
 			const larguraDividida = largura / partes;
 
 			for (let i = 1; i <= partes; i++) {
@@ -219,16 +219,22 @@ function calcular() {
 	// 5. Exibir o resultado usando innerHTML (CORRIGIDO AQUI!)
 	document.getElementById('resultado').innerHTML = `
     <div class="result-box">
-        <h2>📊 Resumo do Cálculo</h2>
+        
+		<div class="final-result">
+            <h3>Resultado Final da Impressão</h3>
+            <p>Área Total de Impressão:</p>
+            <div class="value-box area-value"><strong>${areaTotal}m²</strong> </div>
+        </div>
+        
+        <p class="nota">
+            <em>Nota: Os cálculos consideram uma margem de segurança de 1cm em altura e largura para cortes.</em>
+        </p>
+
+		<h2>📊 Resumo do Cálculo</h2>
 
         <div class="section">
             <h3>Dados Gerais do Projeto</h3>
             <p><strong>Total de Veículos:</strong> ${quantVeiculos}</p>
-            <p>
-                <strong>Largura do Material:</strong> ${larguraMaterial.toFixed(
-									2
-								)} cm
-            </p>
             <p>
                 <strong>Altura Total Necessária:</strong> 
                 <span class='height-detail' style='font-size:1.1em;'>${alturaTotalImpressao.toFixed(
@@ -237,22 +243,14 @@ function calcular() {
             </p>
         </div>
         
-        <div class="final-result">
-            <h3>Resultado Final da Impressão</h3>
-            <p>Área Total de Impressão:</p>
-            <div class="value-box area-value"><strong>${areaTotal}</strong> m²</div>
-        </div>
         
-        <p class="nota">
-            <em>Nota: Os cálculos consideram uma margem de segurança de 1cm em altura e largura para cortes.</em>
-        </p>
         
         <div class="section">
             <h3>Otimização por Tipo de Adesivo</h3>
             <ul class="adesivo-list">${resumoHTML}</ul> 
         </div>
     </div>
-  `;
+`;
 }
 
 // ----------------------------------------------------
@@ -268,58 +266,3 @@ document.addEventListener('DOMContentLoaded', function () {
 		btnDesfazer.disabled = true;
 	}
 });
-/*let areaTotal = 0;
-  let resumo = "";
-
-  // O salvaObj AGORA retorna o OBJETO de adesivos
-  adesivos = salvaObj();
-
-  // Verifica se o objeto está vazio
-  if (Object.keys(adesivos).length === 0) {
-    document.getElementById("resultado").innerText =
-      "Nenhum adesivo válido encontrado para cálculo.";
-    return;
-  }
-
-  // Itera sobre as propriedades do objeto usando `for...in` ou `Object.values`
-  for (const nomeAdesivo in adesivos) {
-    const adesivo = adesivos[nomeAdesivo];
-    const totalAdesivos = adesivo.porVeiculo * adesivo.veiculos;
-    const areaUnitaria = (adesivo.largura / 100) * (adesivo.altura / 100);
-    const areaAdesivo = areaUnitaria * totalAdesivos;
-    areaTotal += areaAdesivo;
-
-    resumo += `• ${adesivo.nome}: ${totalAdesivos} adesivos (${
-      adesivo.largura
-    }x${adesivo.altura}cm) → ${areaAdesivo.toFixed(2)} m²\n`;
-  }
-
-  document.getElementById(
-    "resultado"
-  ).innerText = `Resumo por tipo:\n${resumo}\n---
-Área total de impressão (sem otimização de corte): ${areaTotal.toFixed(2)} m²`;*/
-
-/*function calcular() {
-  const quantVeiculos = parseInt(document.getElementById('quantidadeVeiculos').value);
-  const quantAdesivos = parseInt(document.getElementById('adesivosPorVeiculo').value);
-  const alturaAdesivo = parseInt(document.getElementById('alturaAdesivo').value);
-  const larguraAdesivo = parseFloat(document.getElementById('larguraAdesivo').value);
-  const larguraMaterial = parseFloat(document.getElementById('larguraImpressora').value);
-
-  if (isNaN(quantVeiculos) || isNaN(quantAdesivos) || isNaN(alturaAdesivo) || isNaN(larguraAdesivo) || isNaN(larguraMaterial)) {
-    alert("Por favor, preencha todos os campos corretamente.");
-    return;
-  }
-
-  const conjuntosPorLinha = Math.floor(larguraMaterial / (larguraAdesivo + 1));
-  const alturaLinha = alturaAdesivo + 1;
-  const totalAdesivos = quantVeiculos * quantAdesivos;
-  const quantidadeLinhas = Math.ceil(totalAdesivos / conjuntosPorLinha);
-  const alturaTotal = quantidadeLinhas * alturaLinha;
-  const areaTotal = ((alturaTotal / 100) * (larguraMaterial / 100)).toFixed(2);
-
-  document.getElementById('resultado').innerText =
-    `Linhas necessárias: ${quantidadeLinhas}
-    Altura total: ${alturaTotal.toFixed(2)} cm
-    Área total de impressão: ${areaTotal} m²`;
-}*/
